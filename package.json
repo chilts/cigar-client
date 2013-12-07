@@ -1,0 +1,16 @@
+{
+  "name": "cigar-client",
+  "description": "The client for Cigar. Listens on a port for questions."
+  "version": "0.1.0",
+  "bin": {
+    "cigar-client": "./cigar-client.js"
+  },
+  "licenses" : [{
+    "type" : "MIT",
+    "url" : "http://chilts.mit-license.org/2013/"
+  }],
+  "keywords": [
+    "cigar",
+    "cigar-client"
+  ]
+}

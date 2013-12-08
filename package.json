@@ -1,16 +1,26 @@
 {
   "name": "cigar-client",
-  "description": "The client for Cigar. Listens on a port for questions."
+  "description": "The client for Cigar. Listens on a port for questions.",
   "version": "0.1.0",
   "bin": {
     "cigar-client": "./cigar-client.js"
   },
-  "licenses" : [{
-    "type" : "MIT",
-    "url" : "http://chilts.mit-license.org/2013/"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://chilts.mit-license.org/2013/"
+    }
+  ],
   "keywords": [
     "cigar",
     "cigar-client"
-  ]
+  ],
+  "dependencies": {
+    "async": "~0.2.9",
+    "level": "~0.18.0",
+    "ini": "~1.1.0",
+    "nconf": "~0.6.9",
+    "xtend": "~2.1.1",
+    "flake": "~0.5.0"
+  }
 }

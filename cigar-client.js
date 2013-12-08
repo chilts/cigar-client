@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // ----------------------------------------------------------------------------
 //
-// cigar-client.js
+// cigar-client
+//
+// * https://github.com/chilts/cigar-client
+// * https://npmjs.org/package/cigar-client
 //
 // Copyright 2013 Andrew Chilton. All Rights Reserved.
 //
@@ -11,6 +14,16 @@
 
 // core
 var http = require('http');
+var url = require('url');
+
+// npm
+var async = require('async');
+var nconf = require('nconf');
+var level = require('level');
+var flake = require('flake')('eth0');
+
+// local
+var cfg = require('./lib/cfg.js')();
 
 // ----------------------------------------------------------------------------
 // plugins
@@ -24,6 +37,51 @@ plugins.forEach(function(pluginName) {
 });
 
 // ----------------------------------------------------------------------------
+// the datastore
+
+// open the LevelDB
+var db = level(cfg.store, { valueEncoding : 'json' });
+
+// ----------------------------------------------------------------------------
+// stats collection
+
+// collect stats every 60 seconds
+// var boundary = 60 * 1000;
+var boundary = 15 * 1000;
+
+// gether() - will get everything together and put it into LevelDB
+function gather() {
+    var date = (new Date());
+    plugins.forEach(function(pluginName) {
+        // gether these stats
+        plugin[pluginName](function(err, info) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            log(pluginName, info);
+
+            var key = pluginName + '~' + date.toISOString();
+            db.put(key, info, function(err) {
+                if (err) return console.error(err);
+            });
+        });
+    });
+
+    // let's do this again in a minute
+    setTimeout(gather, getNextStatTrigger() );
+}
+
+// trigger the first timeout on the next minute boundary
+var now = Date.now();
+setTimeout(gather, getNextStatTrigger() );
+
+function getNextStatTrigger() {
+    return boundary - (Date.now() % boundary);
+}
+
+// ----------------------------------------------------------------------------
 // server
 
 var server = http.createServer();
@@ -31,7 +89,7 @@ server.on('request', function(req, res) {
     var data;
 
     // figure out which plugin to do
-    var pluginName = req.url.substr(1);
+    var pluginName = url.parse(req.url).pathname.substr(1);
 
     if ( pluginName === '' ) {
         // just list all the plugins available on this client

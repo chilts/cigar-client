@@ -62,7 +62,7 @@ function gather() {
 
             log(pluginName, info);
 
-            var key = pluginName + '~' + date.toISOString();
+            var key = pluginName + '!' + date.toISOString();
             db.put(key, info, function(err) {
                 if (err) return console.error(err);
             });

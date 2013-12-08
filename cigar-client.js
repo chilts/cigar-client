@@ -46,12 +46,19 @@ var db = level(cfg.store, { valueEncoding : 'json' });
 // stats collection
 
 // collect stats every 60 seconds
-// var boundary = 60 * 1000;
-var boundary = 15 * 1000;
+var boundary = 60 * 1000;
+
+// returns the number of milliseconds until the next stat collection
+function getNextStatTrigger() {
+    return boundary - (Date.now() % boundary);
+}
 
 // gether() - will get everything together and put it into LevelDB
 function gather() {
-    var date = (new Date());
+    // get the boundary this particular gathering should be for
+    var now  = Date.now();
+    var date = new Date(now - (now % boundary));
+
     plugins.forEach(function(pluginName) {
         // gether these stats
         plugin[pluginName](function(err, info) {
@@ -74,12 +81,7 @@ function gather() {
 }
 
 // trigger the first timeout on the next minute boundary
-var now = Date.now();
 setTimeout(gather, getNextStatTrigger() );
-
-function getNextStatTrigger() {
-    return boundary - (Date.now() % boundary);
-}
 
 // ----------------------------------------------------------------------------
 // server

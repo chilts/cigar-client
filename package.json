@@ -1,7 +1,7 @@
 {
   "name": "cigar-client",
-  "description": "The client for Cigar. Listens on a port for questions.",
-  "version": "0.1.0",
+  "description": "The client for Cigar. Collects data, listens on an API server for questions.",
+  "version": "0.2.0",
   "bin": {
     "cigar-client": "./cigar-client.js"
   },

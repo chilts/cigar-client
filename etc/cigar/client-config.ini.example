@@ -1,0 +1,3 @@
+name=tiger
+port=9123
+push=localhost:9124

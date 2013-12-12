@@ -1,0 +1,13 @@
+[os]
+type=os
+period=600
+
+[mem]
+type=mem
+period=15
+
+[device-sda1]
+type=device
+period=60
+device=/dev/sda1
+unit=G

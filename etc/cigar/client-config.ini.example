@@ -1,3 +1,4 @@
 name=tiger
 port=9123
-push=localhost:9124
+serverhost=localhost
+serverport=9124

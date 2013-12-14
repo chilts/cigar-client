@@ -18,7 +18,6 @@ var http = require('http');
 
 // npm
 var ini   = require('ini');
-var paramify = require('paramify');
 
 // local
 var cfg = require('./lib/cfg.js');
@@ -30,7 +29,7 @@ var app = require('./lib/app.js');
 var server = http.createServer();
 server.on('request', app);
 
-var port = process.env.CIGAR_CLIENT_PORT || cfg.port || 9123;
+var port = cfg.port || 9123;
 server.listen(port, function() {
     console.log('Listening on port %s', port);
 });

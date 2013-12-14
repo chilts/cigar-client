@@ -1,0 +1,24 @@
+{
+    "name": "myserver",
+    "port": 9123,
+    "store": "/var/lib/cigar/client",
+    "serverhost": "localhost",
+    "serverport": 9124,
+
+    "stat": {
+        "os": {
+            "type": "os",
+            "period": 600
+        },
+        "mem": {
+            "type": "mem",
+            "period": 15
+        },
+        "device-sda1": {
+            "type": "device",
+            "period": 60,
+            "device": "/dev/sda1",
+            "unit": "G"
+        }
+    }
+}
